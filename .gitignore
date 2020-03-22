@@ -2,6 +2,9 @@
 # Created by https://www.gitignore.io/api/node,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=node,visualstudiocode
 
+out/
+out/*
+
 ### Node ###
 # Logs
 logs
@@ -120,3 +123,4 @@ temp/
 .history
 
 # End of https://www.gitignore.io/api/node,visualstudiocode
+out/extension.js
