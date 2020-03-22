@@ -2,10 +2,11 @@ import * as vscode from "vscode";
 import { languages } from "vscode";
 import IconAutoCompletionProvider from "./auto-completion/icon-auto-completion-provider";
 import { IconProvider } from "./icon-provider";
+import { ColorProvider } from "./color-provider";
+import ColorAutoCompletionProvider from "./auto-completion/color-auto-completion-provider";
 
 export async function activate(context: vscode.ExtensionContext) {
   console.log("Alberta Dev Tools Active");
-
   const extensionEnabled = await isAlbertaProject();
   setExtensionEnabled(extensionEnabled);
   if (!extensionEnabled) {
@@ -14,11 +15,19 @@ export async function activate(context: vscode.ExtensionContext) {
   console.log("[alberta-dev] is enabled...");
 
   IconProvider.initialize().then(provider => {
-    let completionProvider = languages.registerCompletionItemProvider(
+    let iconCompletionProvider = languages.registerCompletionItemProvider(
       "html",
       new IconAutoCompletionProvider(provider)
     );
-    context.subscriptions.push(completionProvider);
+    context.subscriptions.push(iconCompletionProvider);
+  });
+
+  ColorProvider.initialize().then(provider => {
+    let colorCompletionProvider = languages.registerCompletionItemProvider(
+      ["css", "scss"],
+      new ColorAutoCompletionProvider(provider)
+    );
+    context.subscriptions.push(colorCompletionProvider);
   });
 
   let activeEditor = vscode.window.activeTextEditor;
